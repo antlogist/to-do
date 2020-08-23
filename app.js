@@ -36,6 +36,31 @@ let tasks = [
 
     // Append fragment
     document.getElementById("tasks").appendChild(fragment);
+    
+    // Delete button click
+    listGroup.addEventListener("click", deleteEvent);
+    
+    // On click delete button
+    function deleteEvent(e) {
+        e.preventDefault();
+        if (e.target.classList.contains("delete-task-btn")) {
+            const parent = e.target.closest("[data-task-id]");
+            const id = parent.dataset.taskId;
+            const taskDeleted = deleteTask(id);
+            if (taskDeleted) {
+                parent.remove();
+            }
+        }
+    }
+    
+    // Task deletion
+    function deleteTask(id) {
+        const selectedTask = tasks.find(item => item["id"] === +id);
+        const confirmDeletion = confirm(`Are you sure you want to delete the task ${selectedTask.title}?`);
+        if (!confirmDeletion) { return confirmDeletion; }
+        tasks = tasks.filter(item => item["id"] !== +id);
+        return confirmDeletion;
+    }
 
     // Render tasks
     function rednderTasks() {
@@ -59,6 +84,7 @@ let tasks = [
         const a = document.createElement("a");
         a.classList.add("list-group-item", "list-group-item-action");
         a.setAttribute("href", "#");
+        a.setAttribute("data-task-id", task.id);
 
         // div
         const div = document.createElement("div");
@@ -79,7 +105,7 @@ let tasks = [
 
         // delete button
         const deleteBtn = document.createElement("button");
-        deleteBtn.classList.add("btn", "btn-sm", "btn-danger", "mt-2");
+        deleteBtn.classList.add("btn", "btn-sm", "btn-danger", "mt-2", "delete-task-btn");
         deleteBtn.textContent = "Delete";
         a.appendChild(deleteBtn);
 
@@ -90,7 +116,7 @@ let tasks = [
     const addTaskForm = document.forms["addTaskForm"];
     const inputTitle = addTaskForm.elements["taskTitleInput"];
     const inputDescr = addTaskForm.elements["taskDescrInput"];
-
+    
     addTaskForm.addEventListener("submit", formSubmit);
 
     // Form submit
