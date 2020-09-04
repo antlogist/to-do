@@ -151,4 +151,44 @@ let tasks = [
         tasks.unshift({ ...newTaskObj });
         return { ...newTaskObj };
     }
+    
+    // Themes
+    const themes = {
+        default: {
+            '--background-body': 'gray'
+        },
+        light: {
+            '--background-body': 'white'
+        },
+        dark: {
+            '--background-body': 'black'
+        }
+    }
+    
+    let lastTheme = localStorage.getItem("app_theme") || 'default';
+    const themeOption = document.getElementById("themeSelection");
+    themeOption.value = lastTheme;
+    
+    // Theme selection
+    setTheme(lastTheme);
+    themeOption.addEventListener("change", onThemeSelection);
+    function onThemeSelection(e) {
+        const selectedTheme = themeOption.value;
+        const isConfirmed = confirm(`Are you sure you want to change the theme? The new theme will be ${selectedTheme}`);
+        if(!isConfirmed) { 
+            themeOption.value = lastTheme;
+            return;
+        }
+        lastTheme = selectedTheme;
+        setTheme(selectedTheme);
+        localStorage.setItem("app_theme", selectedTheme);
+    }
+    
+    // Set theme
+    function setTheme(themeName) {
+        const theme = themes[themeName];
+        Object.entries(theme).forEach(([key, value], index, arr) => {
+            document.documentElement.style.setProperty(key, value);
+        });
+    }
 })(tasks);

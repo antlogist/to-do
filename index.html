@@ -15,10 +15,24 @@
             integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
             crossorigin="anonymous"
         />
+        
+        <link rel="stylesheet" href="style.css">
 
         <title>Hello, world!</title>
     </head>
     <body>
+        <nav class="navbar navbar-light bg-light">
+            <span class="navbar-brand mb-0 h1">Navbar</span>
+            <form>
+                <div class="form-group">
+                    <select class="form-control" id="themeSelection">
+                        <option value="default">Default</option>
+                        <option value="dark">Dark</option>
+                        <option value="light">Light</option>
+                    </select>
+                </div>
+            </form>
+        </nav>
         <div class="container my-5">
             <form class="mb-5" name="addTaskForm">
                 <div class="form-group">
